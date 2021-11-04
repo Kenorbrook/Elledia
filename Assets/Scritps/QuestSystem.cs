@@ -16,10 +16,16 @@ public class QuestSystem : MonoBehaviour
     public GameObject LoadingScreen;
     public GameObject EnterNamePanel;
     public GameObject BlockCanvas;
+    public GameObject Loading;
+    public Transform Timerrs;
     [Header("Other")]
     public Text panelText;
     public Text inputfield;
+    public Text textTime;
     private bool isDescMenuOpened;
+    public int time = 15;
+
+
     private void Start()
     {
         BlockCanvas = GameObject.Find("BlockCanvas");
@@ -121,15 +127,38 @@ public class QuestSystem : MonoBehaviour
         SceneManager.LoadScene("StartScene");
     }
 
-    public void OpenScene(string name)
+    public void OpenScene( string name)
     {
-        LoadingScreen.GetComponent<Animator>().SetBool("IsLoading", true);
-        StartCoroutine(LoadScene(name));
+        
+         //LoadingScreen.GetComponent<Animator>().SetBool("IsLoading", true);
+         StartCoroutine(LoadScene(name));
+         Loading.SetActive(true);
+
     }
+    
     IEnumerator LoadScene(string name)
     {
+        
+        int Speedcadres = 1;
+        var MovingLocation = SceneManager.LoadSceneAsync(name);
+        MovingLocation.allowSceneActivation = false;
+
+        while (time > 0)
+        {
+            Timerrs.transform.Rotate(new Vector3(0, 0, 6)  * Speedcadres);
+            time--;
+            textTime.text = time.ToString();
+
+            yield return new WaitForSeconds(1f);
+            if (time == 0)
+            {
+                MovingLocation.allowSceneActivation = true;
+
+            }
+        }
+
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(name);
+
     }
     IEnumerator WaitAnswer()
     {

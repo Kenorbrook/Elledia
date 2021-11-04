@@ -18,7 +18,7 @@ public class StartPlay : MonoBehaviour
         {
             Vp.isLooping = false;
             Vp.Play();
-            Screen.orientation = ScreenOrientation.Landscape;
+            Screen.orientation = ScreenOrientation.LandscapeLeft;
             Debug.Log(Vp.clip.length);
             async = SceneManager.LoadSceneAsync(1);
             async.allowSceneActivation = false;
